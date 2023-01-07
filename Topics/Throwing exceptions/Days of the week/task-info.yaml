@@ -1,0 +1,42 @@
+type: code
+files:
+- name: src/Main.java
+  visible: true
+  text: |-
+    import java.util.*;
+
+    public class Main {
+
+        public static String getDayOfWeekName(int number) {
+            // write your code here
+        }
+
+        /* Do not change code below */
+        public static void main(String[] args) {
+            Scanner scanner = new Scanner(System.in);
+            int dayNumber = scanner.nextInt();
+            try {
+                System.out.println(getDayOfWeekName(dayNumber));
+            } catch (Exception e) {
+                System.out.println(e.getClass().getName());
+            }
+        }
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/7004#comment
+status: Failed
+feedback:
+  message: |
+    Failed test #1 of 11. Wrong answer
+
+    This is a sample test from the problem statement!
+
+    Test input:
+    0
+    Correct output:
+    java.lang.IllegalArgumentException
+
+    Your code output:
+    java.util.NoSuchElementException
+  time: "Tue, 03 Jan 2023 22:48:11 UTC"
+record: -1

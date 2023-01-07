@@ -1,0 +1,30 @@
+type: code
+files:
+- name: src/Main.java
+  visible: true
+  text: |-
+    import java.io.InputStream;
+
+    class Main {
+        public static void main(String[] args) throws Exception {
+            InputStream inputStream = System.in;
+        }
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/9097#comment
+status: Failed
+feedback:
+  message: |
+    Failed test #1 of 3. Wrong answer
+
+    This is a sample test from the problem statement!
+
+    Test input:
+    abc
+    Correct output:
+    979899
+
+    Your code output:
+    97989900000000000000000000000000000000000000000000000
+  time: "Thu, 05 Jan 2023 19:31:47 UTC"
+record: -1

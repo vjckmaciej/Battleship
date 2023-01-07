@@ -1,0 +1,25 @@
+type: code
+files:
+- name: src/Main.java
+  visible: true
+  text: |-
+    import java.util.Scanner;
+
+    class Main {
+        public static void main(String[] args) {
+            Scanner scanner = new Scanner(System.in);
+            // start coding here
+        }
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/3481#comment
+status: Failed
+feedback:
+  message: "Failed test #1 of 5. Runtime error\n\nThis is a sample test from the problem\
+    \ statement!\n\nTest input:\ngryffindor\nCorrect output:\nbravery\n\nYour code\
+    \ output:\n\n\nError:\nException in thread \"main\" java.util.InputMismatchException\n\
+    \tat java.base/java.util.Scanner.throwFor(Scanner.java:939)\n\tat java.base/java.util.Scanner.next(Scanner.java:1594)\n\
+    \tat java.base/java.util.Scanner.nextInt(Scanner.java:2258)\n\tat java.base/java.util.Scanner.nextInt(Scanner.java:2212)\n\
+    \tat Main.main(Main.java:7)\n"
+  time: "Wed, 21 Dec 2022 12:59:03 UTC"
+record: -1
