@@ -6,26 +6,20 @@ import java.util.Scanner;
 import static java.lang.Math.abs;
 
 public class Map {
+    protected static final int N = 10;
+    protected int allShipsNumber = 5;
+    protected char[][] field = new char[N][N];
 
-    private static final int N = 10;
-    char[][] field = new char[N][N];
-    public Map() {
+    protected int playerNumber;
+    public Map(int playerNumber) {
+        this.playerNumber = playerNumber;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 this.field[i][j] = '~';
             }
         }
     }
-
-    public char[][] getField() {
-        return field;
-    }
-
-    public void setField(char[][] field) {
-        this.field = field;
-    }
-
-    public void printMap() {
+    public void printMap(boolean isMine) {
         System.out.println();
         System.out.print(" ");
         for (int i = 1; i <= N; i++) {
@@ -37,7 +31,11 @@ public class Map {
             System.out.print(filler);
             filler++;
             for (int j = 0; j < N; j++) {
-                System.out.print(" " + field[i][j]);
+                if (!isMine && this.field[i][j] == 'O') {
+                    System.out.print(" ~");
+                } else {
+                    System.out.print(" " + field[i][j]);
+                }
             }
             System.out.println();
         }
@@ -55,7 +53,7 @@ public class Map {
                 checker = setShip(ship, firstCoordinate, secondCoordinate);
             }
         } while(checker == -1);
-        printMap();
+        printMap(true);
 
     }
 
@@ -63,8 +61,6 @@ public class Map {
         try {
             int x1 = Character.getNumericValue(firstCoordinate.charAt(0)-17);
             int x2 = Character.getNumericValue(secondCoordinate.charAt(0)-17);
-//            int y1 = Character.getNumericValue(firstCoordinate.charAt(1));
-//            int y2 = Character.getNumericValue(secondCoordinate.charAt(1));
             int y1 = Integer.parseInt(firstCoordinate.substring(1)) - 1;
             int y2 = Integer.parseInt(secondCoordinate.substring(1)) - 1;
             checkCoordinates(ship, x1, x2, y1, y2);
@@ -116,8 +112,98 @@ public class Map {
 
 
     }
-
     public static boolean checkIfMapArea(int coordinate) {
         return coordinate >= 0 && coordinate < N;
     }
+
+    public void checkCoordinates(int x, int y) throws CustomShipException {
+        if(!checkIfMapArea(x) || !checkIfMapArea(y) ) {
+            throw new CustomShipException("\nError! You entered the wrong coordinates! Try again: ");
+        }
+    }
+    public void takeShot() {
+        Scanner scanner = new Scanner(System.in);
+        int checker = 0;
+        String shotCoordinates;
+        do {
+            if (scanner.hasNext()) {
+                shotCoordinates = scanner.next();
+                checker = shot(shotCoordinates);
+            }
+        } while(checker == -1);
+    }
+
+    public int shot(String shotCoordinates) {
+        try {
+            int x = Character.getNumericValue(shotCoordinates.charAt(0)-17);
+            int y = Integer.parseInt(shotCoordinates.substring(1)) - 1;
+            checkCoordinates(x,y);
+
+            if (this.field[x][y] == 'O') {
+                this.field[x][y] = 'X';
+//                printShotMap();
+                if (isSunk(x,y,false)) {
+                    this.allShipsNumber--;
+                    if(this.allShipsNumber == 0) {
+                        System.out.println();
+                        System.out.println("You sank the last ship. You won. Congratulations!");
+                    } else {
+                        System.out.println("You sank a ship! Specify a new target:");
+                    }
+                } else {
+                    System.out.println(" ");
+                    System.out.println("You hit a ship!");
+                }
+            } else if (this.field[x][y] == '~' || this.field[x][y] == 'M'){
+                this.field[x][y] = 'M';
+//                printShotMap();
+                System.out.println("You missed!");
+            } else {
+//                printShotMap();
+                System.out.println();
+                System.out.println("You hit a ship!");
+            }
+        } catch (CustomShipException e) {
+            System.out.println(e.getMessage());
+            return -1;
+        } catch (IllegalArgumentException e) {
+            System.out.println("\nError! You entered the wrong coordinates! Try again: ");
+            return -1;
+        }
+        return 0;
+    }
+
+    public boolean isSunk(int x, int y, boolean checker) {
+        for (int i = x - 1; i <= x + 1; i++) {
+            for (int j = y - 1; j <= y + 1; j++) {
+                if (checkIfMapArea(i) && checkIfMapArea(j) && field[i][j] == 'O') {
+                    return false;
+                }
+                if (checkIfMapArea(i) && checkIfMapArea(j) && field[i][j] == 'X' && !(x == i && y == j)) {
+                    if (i + j <  x + y && !checker){
+                        return isSunk(i, j, false);
+                    }
+                    if (i + j > x + y) {
+                        return isSunk(i, j, true);
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public void placeAllShips(Ship ship1, Ship ship2, Ship ship3, Ship ship4, Ship ship5) {
+        System.out.println("Player " + playerNumber + ", place your ships on the game field");
+        printMap(true);
+        placeShip(ship1);
+        placeShip(ship2);
+        placeShip(ship3);
+        placeShip(ship4);
+        placeShip(ship5);
+    }
+
+
+
+
 }
